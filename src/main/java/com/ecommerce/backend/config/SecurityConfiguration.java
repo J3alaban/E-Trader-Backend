@@ -82,19 +82,24 @@ public class SecurityConfiguration {
         return provider;
     }
 
+@Bean
+CorsConfigurationSource corsConfigurationSource() {
+    CorsConfiguration config = new CorsConfiguration();
+    // Hem domain adınızı hem de IP adresinizi listeye ekleyin
+    config.setAllowedOrigins(List.of(
+        "http://localhost:5173",
+        "http://62.72.21.81", 
+        "http://demirayhidrolik.com",
+        "http://www.demirayhidrolik.com"
+    ));
+    config.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS"));
+    config.setAllowedHeaders(List.of("*"));
+    config.setAllowCredentials(true);
 
-    @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:5173"));
-        config.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS"));
-        config.setAllowedHeaders(List.of("*"));
-        config.setAllowCredentials(true);
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config);
-        return source;
-    }
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", config);
+    return source;
+}
 }
 
 
